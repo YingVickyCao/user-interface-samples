@@ -51,6 +51,7 @@ public class DocumentCentricActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate: ");
         setContentView(R.layout.activity_document_centric_main);
         mCheckbox = (CheckBox) findViewById(R.id.multiple_task_checkbox);
     }
@@ -58,6 +59,7 @@ public class DocumentCentricActivity extends Activity {
     @Override
     public void onPostCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onPostCreate(savedInstanceState, persistentState);
+        Log.d(TAG, "onPostCreate: ");
         // Restore state from PersistableBundle
         if (persistentState != null) {
             mDocumentCounter = persistentState.getInt(KEY_EXTRA_NEW_DOCUMENT_COUNTER);
@@ -107,6 +109,7 @@ public class DocumentCentricActivity extends Activity {
     private Intent newDocumentIntent() {
         final Intent newDocumentIntent = new Intent(this, NewDocumentActivity.class);
         newDocumentIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
+//        newDocumentIntent.addFlags(Intent.FLAG_ACTIVITY_RETAIN_IN_RECENTS);
         newDocumentIntent.putExtra(KEY_EXTRA_NEW_DOCUMENT_COUNTER, incrementAndGet());
         return newDocumentIntent;
     }

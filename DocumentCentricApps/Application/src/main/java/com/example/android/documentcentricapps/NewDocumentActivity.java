@@ -19,6 +19,7 @@ package com.example.android.documentcentricapps;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -35,6 +36,7 @@ import android.widget.TextView;
  * </ul>
  */
 public class NewDocumentActivity extends Activity {
+    private static final String TAG = NewDocumentActivity.class.getSimpleName();
 
     private TextView mDocumentCounterTextView;
     private int mDocumentCount;
@@ -42,31 +44,37 @@ public class NewDocumentActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate: ");
         setContentView(R.layout.activity_new_document);
-        mDocumentCount = getIntent()
-                .getIntExtra(DocumentCentricActivity.KEY_EXTRA_NEW_DOCUMENT_COUNTER, 0);
-        mDocumentCounterTextView = (TextView) findViewById(
-                R.id.hello_new_document_text_view);
+        mDocumentCount = getIntent().getIntExtra(DocumentCentricActivity.KEY_EXTRA_NEW_DOCUMENT_COUNTER, 0);
+        mDocumentCounterTextView = (TextView) findViewById(R.id.hello_new_document_text_view);
         setDocumentCounterText(R.string.hello_new_document_counter);
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        Log.d(TAG, "onNewIntent: ");
         /* If {@link Intent#FLAG_ACTIVITY_MULTIPLE_TASK} has not been used this Activity
         will be reused.
          */
         setDocumentCounterText(R.string.reusing_document_counter);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy: ");
+    }
+
     public void onRemoveFromOverview(View view) {
         // It is good pratice to remove a document from the overview stack if not needed anymore.
-        finishAndRemoveTask();
+//        finishAndRemoveTask();
+        finish();
     }
 
     public void setDocumentCounterText(int resId) {
-        mDocumentCounterTextView
-                .setText(String.format(getString(resId), String.valueOf(mDocumentCount)));
+        Log.d(TAG, "setDocumentCounterText: mDocumentCount=" + mDocumentCount);
+        mDocumentCounterTextView.setText(String.format(getString(resId), String.valueOf(mDocumentCount)));
     }
-
 }
